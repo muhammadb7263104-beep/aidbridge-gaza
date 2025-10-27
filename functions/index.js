@@ -18,7 +18,7 @@ exports.convertToCrypto = functions.https.onRequest(async (req, res) => {
     const convert = await axios.post('https://api.changenow.io/v2/exchange', {
       from: 'usd', to: wallet.startsWith('0x') ? 'eth' : 'btc',
       amount: amount / 100, address: wallet
-    }, { headers: { 'x-changenow-api-key': '5651c74fe1a33635a037d04ef749a7d0de6a3f126cd470d7eb57d8f3363c3cd9' } }); // Replace key
+    }, { headers: { 'x-changenow-api-key': process.env.CHANGENOW_API_KEY } }); // Replace key
 
     await admin.firestore().collection('donations').add({
       usd: amount / 100, type: 'fiat', tx: convert.data.id
