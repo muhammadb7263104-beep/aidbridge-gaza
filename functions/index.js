@@ -29,3 +29,27 @@ exports.convertToCrypto = functions.https.onRequest(async (req, res) => {
     res.json({ success: false, error: e.message });
   }
 });
+const nodemailer = require('nodemailer'); // npm i nodemailer
+
+// Email Transporter (Use Gmail App Password)
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: { user: 'your-gmail@gmail.com', pass: 'your-app-password' } // Set in env
+});
+
+exports.sendEmail = functions.https.onRequest(async (req, res) => {
+  const { to, amount, donorEmail, type, txId } = req.body;
+  await transporter.sendMail({
+    from: 'aidbridge@alerts.com',
+    to,
+    subject: `Aidbridge Alert: New $${amount} ${type} Donation`,
+    html: `<p>New donation: $${amount} from ${donorEmail || 'Crypto Donor'} (${type}, Tx: ${txId})</p><p>Wallet: BTC/19nnb... or USDT/0xdc88...</p>`
+  });
+  res.json({ success: true });
+});
+
+// Pre-Set Wallet on Deploy (Run Once)
+exports.initWallet = functions.https.onRequest(async (req, res) => {
+  await db.collection('config').doc('wallet').set(MY_WALLET); // Your addresses
+  res.json({ success: true });
+});
