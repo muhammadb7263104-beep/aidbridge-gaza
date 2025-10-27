@@ -1,18 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Aidbridge Gaza – Empowering Children: $200,000 Goal</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <script src="https://js.stripe.com/v3/"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 </head>
 <body>
-  <!-- No Setup Screen – Pre-Set in Backend -->
-
   <div id="mainSite">
     <header>
       <div class="container">
@@ -25,8 +23,8 @@
           </defs>
           <rect width="150" height="50" rx="10" fill="url(#grad)" />
           <path d="M20 25 L40 15 L60 25 L80 15 L100 25" stroke="white" stroke-width="3" fill="none" />
-          <text x="45" y="35" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="white">Aidbridge</text>
-          <text x="110" y="35" font-family="Arial, sans-serif" font-size="10" fill="white">Gaza Hope</text>
+          <text x="45" y="35" font-family="Arial" font-size="16" font-weight="bold" fill="white">Aidbridge</text>
+          <text x="110" y="35" font-family="Arial" font-size="10" fill="white">Gaza Hope</text>
         </svg>
         <nav>
           <a href="#progress" class="nav-link">Donation Progress</a>
@@ -51,74 +49,66 @@
       </div>
     </section>
 
-    <!-- New: Gaza Stories Section with Photos -->
     <section id="stories" class="stories">
       <div class="container">
         <h2>Stories from Gaza: Children Receiving Aid</h2>
         <p>Every donation brings relief – from meals to medicine for families in crisis.</p>
         <div class="photo-grid">
-          <!-- Photo 1: Children receiving food (Reuters, free for advocacy) -->
           <div class="photo-card">
-            <img src="https://via.placeholder.com/400x300/28A745/FFFFFF?text=Gaza+Kids+Food+Aid" alt="Palestinian children receiving food parcels in Gaza City, 2025 (Reuters)" data-src="https://www.reuters.com/resizer/v2/EXAMPLE-REUTERS-URL.jpg"> <!-- Replace with your photo -->
+            <img src="https://images.unsplash.com/photo-1678906887184-240e9d1e4b2a?w=400&h=300&fit=crop" alt="Gaza children receiving food aid" loading="lazy">
             <p>Kids in Gaza City queue for nourishing meals, thanks to supporters like you.</p>
           </div>
-          <!-- Photo 2: Medical treatment (UNICEF) -->
           <div class="photo-card">
-            <img src="https://via.placeholder.com/400x300/D71920/FFFFFF?text=Medical+Aid+for+Child" alt="Child receiving nutrition treatment in Gaza hospital (UNICEF/El Baba, 2025)" data-src="https://www.unicef.org/media/EXAMPLE-UNICEF.jpg"> <!-- Replace -->
-            <p>Treating malnutrition in northern Gaza – one child at a time.</p>
+            <img src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=400&h=300&fit=crop" alt="Child medical treatment in Gaza" loading="lazy">
+            <p>Treating malnutrition in northern Gaza hospitals – one child at a time.</p>
           </div>
-          <!-- Photo 3: Family with supplies (Anadolu/Getty, royalty-free for humanitarian) -->
           <div class="photo-card">
-            <img src="https://via.placeholder.com/400x300/28A745/FFFFFF?text=Family+Aid+Supplies" alt="Displaced family with food and medical supplies in Khan Yunis (Anadolu, 2025)" data-src="https://www.gettyimages.com/detail/EXAMPLE-GETTY.jpg"> <!-- Replace -->
+            <img src="https://images.unsplash.com/photo-1593113598332-cd288d649433?w=400&h=300&fit=crop" alt="Family with aid supplies in Gaza" loading="lazy">
             <p>Delivering essential food and medicine to rebuild hope.</p>
           </div>
-          <!-- Photo 4: Your photo placeholder -->
           <div class="photo-card">
-            <img src="https://via.placeholder.com/400x300/D71920/FFFFFF?text=Your+Gaza+Photo" alt="Custom Gaza child aid photo" data-src="images/your-photo1.jpg"> <!-- Upload your photo here -->
-            <p>[Your Caption: e.g., Gaza children finding strength through community aid]</p>
+            <img src="https://via.placeholder.com/400x300?text=Your+Photo+Here" alt="Custom Gaza aid photo" loading="lazy">
+            <p>Add your photo caption here for personalized impact.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Donate Modal -->
+    <!-- Donation Modal -->
     <div id="donateModal" class="modal">
       <div class="modal-content">
         <span class="close">&times;</span>
         <h2>Make a Secure Donation</h2>
-        <p>Choose your method below – 100% supports Gaza children's treatment and nutrition.</p>
-        <!-- Tabs -->
+        <p>Choose your method – 100% supports Gaza children's treatment and nutrition.</p>
         <div class="tab-buttons">
           <button class="tab-btn active" data-tab="card">Card Payment</button>
           <button class="tab-btn" data-tab="crypto">Crypto Donation</button>
         </div>
-        <!-- Card Tab -->
         <div id="cardTab" class="tab-content">
           <form id="cardForm">
-            <input type="text" id="name" placeholder="Full Name" required />
-            <input type="email" id="email" placeholder="Email Address" required />
+            <input type="text" id="name" placeholder="Full Name" required>
+            <input type="email" id="email" placeholder="Email Address" required>
             <div class="amounts">
               <button type="button" data-amt="10">$10</button>
               <button type="button" data-amt="25">$25</button>
               <button type="button" data-amt="50" class="active">$50</button>
               <button type="button" data-amt="100">$100</button>
             </div>
-            <input type="number" id="amount" value="50" placeholder="Custom Amount $" min="1" required />
+            <input type="number" id="amount" value="50" placeholder="Custom Amount $" min="1" required>
             <div id="card-element"></div>
             <button type="submit" class="submit-btn">Donate Securely</button>
           </form>
         </div>
-        <!-- Crypto Tab -->
         <div id="cryptoTab" class="tab-content" style="display:none;">
-          <p>Select cryptocurrency to donate directly to Gaza aid efforts.</p>
+          <p>Select cryptocurrency for direct Gaza aid.</p>
           <div id="cryptoOptions">
             <div class="crypto-btn" data-type="BTC">Bitcoin (BTC)</div>
             <div class="crypto-btn" data-type="ETH">Ethereum (ETH)</div>
             <div class="crypto-btn" data-type="USDT">USDT (ERC-20)</div>
           </div>
           <div id="qrCode" class="qr"></div>
-          <p id="walletAddr" style="display:none;">Address ready for transfer.</p>
-          <button id="confirmCrypto" class="submit-btn" style="display:none;">Confirm & Update Progress</button>
+          <p id="walletAddr" style="display:none;"></p>
+          <button id="confirmCrypto" class="submit-btn" style="display:none;">Confirm Donation</button>
         </div>
       </div>
     </div>
