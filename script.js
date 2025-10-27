@@ -38,7 +38,23 @@ setInterval(loadProgress, 5000);
 
 // Modal & Tabs
 const modal = document.getElementById('donateModal');
-document.getElementById('donateBtn').onclick = () => modal.style.display = 'block';
+// Fixed Modal Open (with Error Handling)
+function openModal() {
+  const modal = document.getElementById('donateModal');
+  if (modal) {
+    modal.style.display = 'block';
+  } else {
+    alert('Loading... Please refresh and try again.');
+  }
+}
+document.getElementById('donateBtn').addEventListener('click', (e) => {
+  e.preventDefault();
+  openModal();
+});
+document.getElementById('heroDonate').addEventListener('click', (e) => {
+  e.preventDefault();
+  openModal();
+});
 document.getElementById('heroDonate').onclick = () => modal.style.display = 'block';
 document.querySelector('.close').onclick = () => modal.style.display = 'none';
 window.onclick = (e) => { if (e.target === modal) modal.style.display = 'none'; };
