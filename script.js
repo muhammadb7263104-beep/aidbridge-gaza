@@ -12,7 +12,7 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
 // Stripe - Replace with yours
-const stripe = Stripe('pk_test_YOUR_STRIPE_PUBLISHABLE_KEY');
+const stripe = Stripe('pk_test_51SMrk4RwNinfTWeGGuWHQF57stgtRWZWKdQthxAwMXFrUVAk9KaokbUHNmKl8m1as63LTc6KE6ZAFvjnbOPwq8of00NAglKpPl');
 const elements = stripe.elements();
 const card = elements.create('card', { style: { base: { fontSize: '16px' } } });
 card.mount('#card-element');
