@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Aidbridge Gaza – $200,000</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://js.stripe.com/v3/"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+</head>
+<body>
+
+  <!-- Setup -->
+  <div id="setupScreen" class="setup-screen">
+    <div class="setup-box">
+      <h2>Set Your Crypto Wallet</h2>
+      <p>All donations go <strong>directly</strong> here.</p>
+      <input type="text" id="btcAddress" placeholder="BTC: bc1q..." />
+      <input type="text" id="ethAddress" placeholder="ETH/USDT: 0x..." />
+      <button id="saveWallet" class="cta-btn">Save & Launch</button>
+    </div>
+  </div>
+
+  <!-- Main -->
+  <div id="mainSite" style="display:none;">
+    <header>
+      <div class="container">
+        <svg class="logo" width="150" height="50" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style="stop-color:#D71920;stop-opacity:1" />
+              <stop offset="100%" style="stop-color:#28A745;stop-opacity:1" />
+            </linearGradient>
+          </defs>
+          <rect width="150" height="50" rx="10" fill="url(#grad)" />
+          <path d="M20 25 L40 15 L60 25 L80 15 L100 25" stroke="white" stroke-width="3" fill="none" />
+          <text x="45" y="35" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="white">Aidbridge</text>
+          <text x="110" y="35" font-family="Arial, sans-serif" font-size="10" fill="white">Gaza Hope</text>
+        </svg>
+        <nav>
+          <a href="#donate">Donate</a>
+          <a href="#crypto">Crypto</a>
+          <a href="#progress">Progress</a>
+        </nav>
+      </div>
+    </header>
+
+    <section id="hero" class="hero">
+      <div class="container">
+        <h1>Northern Gaza Needs You</h1>
+        <p>100% to aid. No banks. Direct to crypto.</p>
+        <a href="#donate" class="cta-btn">Donate Now</a>
+      </div>
+    </section>
+
+    <section id="progress" class="progress">
+      <div class="container">
+        <h2>Goal: $200,000</h2>
+        <div class="progress-bar"><div id="fill" class="fill"></div></div>
+        <p id="raised">$0 raised (<span id="percent">0</span>%)</p>
+      </div>
+    </section>
+
+    <section id="donate" class="section">
+      <div class="container">
+        <h2>Card → Your Crypto Wallet</h2>
+        <form id="cardForm">
+          <input type="text" id="name" placeholder="Name" required />
+          <input type="email" id="email" placeholder="Email" required />
+          <div class="amounts">
+            <button type="button" data-amt="10">$10</button>
+            <button type="button" data-amt="25">$25</button>
+            <button type="button" data-amt="50">$50</button>
+            <button type="button" data-amt="100">$100</button>
+          </div>
+          <input type="number" id="amount" placeholder="Custom $" min="1" required />
+          <div id="card-element"></div>
+          <button type="submit" class="submit-btn">Donate → Crypto</button>
+        </form>
+      </div>
+    </section>
+
+    <section id="crypto" class="section bg-light">
+      <div class="container">
+        <h2>Donate Crypto</h2>
+        <div id="cryptoOptions">
+          <div class="crypto-btn" data-type="BTC">Bitcoin (BTC)</div>
+          <div class="crypto-btn" data-type="ETH">Ethereum (ETH)</div>
+          <div class="crypto-btn" data-type="USDT">USDT</div>
+        </div>
+        <div id="qrCode" class="qr"></div>
+        <p id="walletAddr"></p>
+      </div>
+    </section>
+
+    <footer>
+      <div class="container">
+        <p>© 2025 Aidbridge | Funds to <span id="footerAddr"></span></p>
+      </div>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
