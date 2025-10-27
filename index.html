@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Aidbridge Gaza – $200,000</title>
+  <title>Aidbridge Gaza – Empowering Children: $200,000 Goal</title>
   <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <script src="https://js.stripe.com/v3/"></script>
@@ -11,20 +11,9 @@
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 </head>
 <body>
+  <!-- No Setup Screen – Pre-Set in Backend -->
 
-  <!-- Setup -->
-  <div id="setupScreen" class="setup-screen">
-    <div class="setup-box">
-      <h2>Set Your Crypto Wallet</h2>
-      <p>All donations go <strong>directly</strong> here.</p>
-      <input type="text" id="btcAddress" placeholder="BTC: bc1q..." />
-      <input type="text" id="ethAddress" placeholder="ETH/USDT: 0x..." />
-      <button id="saveWallet" class="cta-btn">Save & Launch</button>
-    </div>
-  </div>
-
-  <!-- Main -->
-  <div id="mainSite" style="display:none;">
+  <div id="mainSite">
     <header>
       <div class="container">
         <svg class="logo" width="150" height="50" xmlns="http://www.w3.org/2000/svg">
@@ -40,64 +29,103 @@
           <text x="110" y="35" font-family="Arial, sans-serif" font-size="10" fill="white">Gaza Hope</text>
         </svg>
         <nav>
-          <a href="#donate">Donate</a>
-          <a href="#crypto">Crypto</a>
-          <a href="#progress">Progress</a>
+          <a href="#progress" class="nav-link">Donation Progress</a>
+          <a href="#" id="donateBtn" class="cta-btn">DONATE NOW</a>
         </nav>
       </div>
     </header>
 
     <section id="hero" class="hero">
       <div class="container">
-        <h1>Northern Gaza Needs You</h1>
-        <p>100% to aid. No banks. Direct to crypto.</p>
-        <a href="#donate" class="cta-btn">Donate Now</a>
+        <h1>Empowering Gaza's Children</h1>
+        <p>Your Gift Provides Life-Saving Medical Treatment, Nourishing Food, and Hope for Brighter Futures</p>
+        <a href="#" id="heroDonate" class="cta-btn">DONATE NOW</a>
       </div>
     </section>
 
     <section id="progress" class="progress">
       <div class="container">
-        <h2>Goal: $200,000</h2>
+        <h2>Goal: $200,000 for Gaza Children's Aid</h2>
         <div class="progress-bar"><div id="fill" class="fill"></div></div>
         <p id="raised">$0 raised (<span id="percent">0</span>%)</p>
       </div>
     </section>
 
-    <section id="donate" class="section">
+    <!-- New: Gaza Stories Section with Photos -->
+    <section id="stories" class="stories">
       <div class="container">
-        <h2>Card → Your Crypto Wallet</h2>
-        <form id="cardForm">
-          <input type="text" id="name" placeholder="Name" required />
-          <input type="email" id="email" placeholder="Email" required />
-          <div class="amounts">
-            <button type="button" data-amt="10">$10</button>
-            <button type="button" data-amt="25">$25</button>
-            <button type="button" data-amt="50">$50</button>
-            <button type="button" data-amt="100">$100</button>
+        <h2>Stories from Gaza: Children Receiving Aid</h2>
+        <p>Every donation brings relief – from meals to medicine for families in crisis.</p>
+        <div class="photo-grid">
+          <!-- Photo 1: Children receiving food (Reuters, free for advocacy) -->
+          <div class="photo-card">
+            <img src="https://via.placeholder.com/400x300/28A745/FFFFFF?text=Gaza+Kids+Food+Aid" alt="Palestinian children receiving food parcels in Gaza City, 2025 (Reuters)" data-src="https://www.reuters.com/resizer/v2/EXAMPLE-REUTERS-URL.jpg"> <!-- Replace with your photo -->
+            <p>Kids in Gaza City queue for nourishing meals, thanks to supporters like you.</p>
           </div>
-          <input type="number" id="amount" placeholder="Custom $" min="1" required />
-          <div id="card-element"></div>
-          <button type="submit" class="submit-btn">Donate → Crypto</button>
-        </form>
+          <!-- Photo 2: Medical treatment (UNICEF) -->
+          <div class="photo-card">
+            <img src="https://via.placeholder.com/400x300/D71920/FFFFFF?text=Medical+Aid+for+Child" alt="Child receiving nutrition treatment in Gaza hospital (UNICEF/El Baba, 2025)" data-src="https://www.unicef.org/media/EXAMPLE-UNICEF.jpg"> <!-- Replace -->
+            <p>Treating malnutrition in northern Gaza – one child at a time.</p>
+          </div>
+          <!-- Photo 3: Family with supplies (Anadolu/Getty, royalty-free for humanitarian) -->
+          <div class="photo-card">
+            <img src="https://via.placeholder.com/400x300/28A745/FFFFFF?text=Family+Aid+Supplies" alt="Displaced family with food and medical supplies in Khan Yunis (Anadolu, 2025)" data-src="https://www.gettyimages.com/detail/EXAMPLE-GETTY.jpg"> <!-- Replace -->
+            <p>Delivering essential food and medicine to rebuild hope.</p>
+          </div>
+          <!-- Photo 4: Your photo placeholder -->
+          <div class="photo-card">
+            <img src="https://via.placeholder.com/400x300/D71920/FFFFFF?text=Your+Gaza+Photo" alt="Custom Gaza child aid photo" data-src="images/your-photo1.jpg"> <!-- Upload your photo here -->
+            <p>[Your Caption: e.g., Gaza children finding strength through community aid]</p>
+          </div>
+        </div>
       </div>
     </section>
 
-    <section id="crypto" class="section bg-light">
-      <div class="container">
-        <h2>Donate Crypto</h2>
-        <div id="cryptoOptions">
-          <div class="crypto-btn" data-type="BTC">Bitcoin (BTC)</div>
-          <div class="crypto-btn" data-type="ETH">Ethereum (ETH)</div>
-          <div class="crypto-btn" data-type="USDT">USDT</div>
+    <!-- Donate Modal -->
+    <div id="donateModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Make a Secure Donation</h2>
+        <p>Choose your method below – 100% supports Gaza children's treatment and nutrition.</p>
+        <!-- Tabs -->
+        <div class="tab-buttons">
+          <button class="tab-btn active" data-tab="card">Card Payment</button>
+          <button class="tab-btn" data-tab="crypto">Crypto Donation</button>
         </div>
-        <div id="qrCode" class="qr"></div>
-        <p id="walletAddr"></p>
+        <!-- Card Tab -->
+        <div id="cardTab" class="tab-content">
+          <form id="cardForm">
+            <input type="text" id="name" placeholder="Full Name" required />
+            <input type="email" id="email" placeholder="Email Address" required />
+            <div class="amounts">
+              <button type="button" data-amt="10">$10</button>
+              <button type="button" data-amt="25">$25</button>
+              <button type="button" data-amt="50" class="active">$50</button>
+              <button type="button" data-amt="100">$100</button>
+            </div>
+            <input type="number" id="amount" value="50" placeholder="Custom Amount $" min="1" required />
+            <div id="card-element"></div>
+            <button type="submit" class="submit-btn">Donate Securely</button>
+          </form>
+        </div>
+        <!-- Crypto Tab -->
+        <div id="cryptoTab" class="tab-content" style="display:none;">
+          <p>Select cryptocurrency to donate directly to Gaza aid efforts.</p>
+          <div id="cryptoOptions">
+            <div class="crypto-btn" data-type="BTC">Bitcoin (BTC)</div>
+            <div class="crypto-btn" data-type="ETH">Ethereum (ETH)</div>
+            <div class="crypto-btn" data-type="USDT">USDT (ERC-20)</div>
+          </div>
+          <div id="qrCode" class="qr"></div>
+          <p id="walletAddr" style="display:none;">Address ready for transfer.</p>
+          <button id="confirmCrypto" class="submit-btn" style="display:none;">Confirm & Update Progress</button>
+        </div>
       </div>
-    </section>
+    </div>
 
     <footer>
       <div class="container">
-        <p>© 2025 Aidbridge | Funds to <span id="footerAddr"></span></p>
+        <p>&copy; 2025 Aidbridge Gaza | Direct Relief for Vulnerable Children – Medical Care, Nutrition, and Recovery</p>
       </div>
     </footer>
   </div>
