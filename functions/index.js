@@ -1,6 +1,6 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
-const stripe = require('stripe')('sk_test_YOUR_STRIPE_SECRET'); // Replace
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const axios = require('axios');
 admin.initializeApp();
 
