@@ -1,11 +1,12 @@
 // Firebase (Replace placeholders with yours)
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY", // From Firebase console
+  apiKey: "AIzaSyCIfuULgnsUnVAuJmZkN5FSXmb1MhFTn_U",
   authDomain: "aidbridge-gaza.firebaseapp.com",
   projectId: "aidbridge-gaza",
-  storageBucket: "aidbridge-gaza.appspot.com",
-  messagingSenderId: "123456789",
-  appId: "1:123456789:web:abc123"
+  storageBucket: "aidbridge-gaza.firebasestorage.app",
+  messagingSenderId: "1038094164239",
+  appId: "1:1038094164239:web:d0d32b2b269ba43428de7a",
+  measurementId: "G-WS4T2DN35P"
 };
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
