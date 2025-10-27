@@ -114,35 +114,69 @@ function handleCryptoClick(e) {
   };
 }
 
-// Card Form
+// === STRIPE CHECKOUT (NO BACKEND NEEDED) ===
 document.getElementById('cardForm').addEventListener('submit', async (e) => {
   e.preventDefault();
   const name = document.getElementById('name').value;
   const email = document.getElementById('email').value;
-  const amount = parseFloat(document.getElementById('amount').value);
-  const { paymentMethod, error } = await stripe.createPaymentMethod({
-    type: 'card',
-    card: card,
-    billing_details: { name, email }
-  });
-  if (error) return alert(error.message);
+  const amount = parseFloat(document.getElementById('amount').value) * 100; // in cents
+
+  if (!name || !email || amount < 100) {
+    alert('Please fill all fields and enter at least $1');
+    return;
+  }
 
   try {
-    const res = await fetch('/api/convertToCrypto', {
+    // Create Checkout Session (calls Stripe directly)
+    const response = await fetch('https://api.stripe.com/v1/checkout/sessions', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ paymentMethodId: paymentMethod.id, amount: amount * 100, email, wallet: MY_WALLET.eth || MY_WALLET.btc })
+      headers: {
+        'Authorization': `Bearer ${stripe._apiKey}`, // Uses your publishable key
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: new URLSearchParams({
+        'payment_method_types[]': 'card',
+        'line_items[0][price_data][currency]': 'usd',
+        'line_items[0][price_data][product_data][name]': 'Gaza Children Aid',
+        'line_items[0][price_data][unit_amount]': amount,
+        'line_items[0][quantity]': 1,
+        'mode': 'payment',
+        'success_url': window.location.href + '?success=true',
+        'cancel_url': window.location.href + '?cancel=true',
+        'customer_email': email,
+      })
     });
-    const data = await res.json();
-    if (data.success) {
-      await db.collection('donations').add({ usd: amount, type: 'fiat', timestamp: firebase.firestore.FieldValue.serverTimestamp() });
-      await sendEmail(amount, email, 'fiat', data.txId);
-      alert('Thank you! Your gift is helping Gaza children.');
-      loadProgress();
-      document.getElementById('donateModal').style.display = 'none';
-      document.getElementById('cardForm').reset();
-    } else alert('Error: ' + data.error);
-  } catch (e) { alert('Connection error – try again.'); }
+
+    const session = await response.json();
+    if (session.id) {
+      // Save to Firebase
+      await db.collection('donations').add({
+        usd: amount / 100,
+        type: 'fiat',
+        email: email,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      });
+
+      // Send email alert
+      await fetch('https://us-central1-aidbridge-gaza.cloudfunctions.net/sendEmail', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          to: 'osemudiamenmonday2@gmail.com',
+          amount: amount / 100,
+          donorEmail: email,
+          type: 'fiat',
+          txId: session.id
+        })
+      });
+
+      // Redirect to Stripe
+      stripe.redirectToCheckout({ sessionId: session.id });
+    }
+  } catch (err) {
+    console.error(err);
+    alert('Payment failed – try again. Check internet.');
+  }
 });
 
 // Email Function
