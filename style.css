@@ -26,8 +26,8 @@ form input, form button { width:100%; padding:1rem; margin:0.5rem 0; border-radi
 #card-element { background:#fff; padding:1rem; border:1px solid #ddd; border-radius:8px; margin:1rem 0; }
 .submit-btn { background:#D71920; color:#fff; font-weight:700; border:none; cursor:pointer; }
 
-.crypto-btn { background:#fff; padding:1rem; margin:0.5rem 0; border-radius:8px; text-align:center; cursor:pointer; border:1px solid #ddd; }
-.crypto-btn:hover { background:#f0f0f0; }
+.crypto-btn { background:#fff; padding:1rem; margin:0.5rem 0; border-radius:8px; text-align:center; cursor:pointer; border:1px solid #ddd; transition: background 0.3s; }
+.crypto-btn:hover, .crypto-btn.active { background:#28A745; color:#fff; }
 #qrCode { margin:2rem auto; width:200px; height:200px; }
 #walletAddr { word-break:break-all; font-family:monospace; background:#eee; padding:1rem; border-radius:8px; }
 
