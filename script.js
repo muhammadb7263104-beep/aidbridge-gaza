@@ -93,15 +93,39 @@ document.querySelectorAll('[data-amt]').forEach(btn => {
   };
 });
 
-// Crypto QR
-document.querySelectorAll('.crypto-btn').forEach(btn => {
-  btn.onclick = () => {
-    const type = btn.dataset.type;
-    const addr = type === 'BTC' ? MY_WALLET.btc : MY_WALLET.eth;
-    if (!addr) return alert(`Set your ${type} address first!`);
-    document.getElementById('walletAddr').textContent = addr;
-    document.getElementById('qrCode').innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(addr)}" alt="QR Code" />`;
-  };
+// Crypto QR (Fixed for Mobile)
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.crypto-btn').forEach(btn => {
+    // Add both click & touch for phones
+    btn.addEventListener('click', handleCryptoClick);
+    btn.addEventListener('touchstart', handleCryptoClick); // Mobile fix
+  });
 });
+
+function handleCryptoClick(e) {
+  e.preventDefault(); // Stop double-fire
+  const type = e.currentTarget.dataset.type;
+  const addr = type === 'BTC' ? MY_WALLET.btc : MY_WALLET.eth;
+  
+  if (!addr) {
+    alert(`Set your ${type} address first! Go back to setup.`);
+    return;
+  }
+  
+  // Highlight button on click
+  e.currentTarget.classList.add('active');
+  setTimeout(() => e.currentTarget.classList.remove('active'), 300);
+  
+  // Show address
+  document.getElementById('walletAddr').textContent = `Send ${type} to: ${addr}`;
+  
+  // Generate QR with Bitcoin URI (standard format)
+  const uri = type === 'BTC' ? `bitcoin:${addr}` : `ethereum:${addr}`;
+  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(uri)}`;
+  document.getElementById('qrCode').innerHTML = `<img src="${qrUrl}" alt="QR Code for ${type}" style="border:1px solid #ddd; border-radius:8px;" />`;
+  
+  // Scroll to QR
+  document.getElementById('qrCode').scrollIntoView({ behavior: 'smooth' });
+}
 
 initWallet();
