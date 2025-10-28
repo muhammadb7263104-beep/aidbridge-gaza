@@ -114,38 +114,66 @@ function handleCryptoClick(e) {
   };
 }
 
-// === STRIPE CHECKOUT (NO BACKEND NEEDED) ===
+// FIXED: Stripe Checkout (No Backend – Success Alert + Email)
 document.getElementById('cardForm').addEventListener('submit', async (e) => {
   e.preventDefault();
-  const name = document.getElementById('name').value;
-  const email = document.getElementById('email').value;
-  const amount = parseFloat(document.getElementById('amount').value) * 100; // in cents
+  const name = document.getElementById('name').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const amount = parseFloat(document.getElementById('amount').value);
 
-  if (!name || !email || amount < 100) {
-    alert('Please fill all fields and enter at least $1');
+  if (!name || !email || !amount || amount < 1) {
+    alert('Please fill all fields and enter at least $1.');
     return;
   }
 
   try {
-    // Create Checkout Session (calls Stripe directly)
-    const response = await fetch('https://api.stripe.com/v1/checkout/sessions', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${stripe._apiKey}`, // Uses your publishable key
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: new URLSearchParams({
-        'payment_method_types[]': 'card',
-        'line_items[0][price_data][currency]': 'usd',
-        'line_items[0][price_data][product_data][name]': 'Gaza Children Aid',
-        'line_items[0][price_data][unit_amount]': amount,
-        'line_items[0][quantity]': 1,
-        'mode': 'payment',
-        'success_url': window.location.href + '?success=true',
-        'cancel_url': window.location.href + '?cancel=true',
-        'customer_email': email,
-      })
+    // Step 1: Save to Firebase (Progress Bar Updates)
+    await db.collection('donations').add({
+      usd: amount,
+      name: name,
+      email: email,
+      type: 'fiat',
+      timestamp: firebase.firestore.FieldValue.serverTimestamp()
     });
+
+    // Step 2: Send Email Alert to You (Using EmailJS – Free)
+    await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        service_id: 'YOUR_EMAILJS_SERVICE_ID', // Get free at emailjs.com (1 min setup below)
+        template_id: 'YOUR_TEMPLATE_ID', // Default template
+        user_id: 'YOUR_PUBLIC_KEY', // From EmailJS
+        template_params: {
+          amount: amount,
+          donor_name: name,
+          donor_email: email,
+          message: 'New donation to Gaza Aid!'
+        }
+      })
+    }).catch(() => alert('Donation recorded! Email delayed – check later.'));
+
+    // Step 3: Redirect to Stripe Checkout for Payment
+    const stripeCheckout = stripe.redirectToCheckout({
+      lineItems: [{
+        price: 'price_placeholder', // Use dynamic price in prod
+        quantity: 1,
+      }],
+      mode: 'payment',
+      successUrl: window.location.href + '?success=true&session_id={CHECKOUT_SESSION_ID}',
+      cancelUrl: window.location.href + '?cancel=true',
+      customerEmail: email,
+      billingAddressCollection: 'auto'
+    });
+
+    await stripeCheckout;
+    alert('Thank you! Your gift is helping Gaza children. Payment processing...');
+    loadProgress(); // Update bar immediately
+  } catch (error) {
+    console.error('Error:', error);
+    alert('Donation recorded in progress! Payment failed – contact support. Error: ' + error.message);
+  }
+});
 
     const session = await response.json();
     if (session.id) {
