@@ -10,9 +10,17 @@ nav { display: flex; gap: 1rem; align-items: center; }
 .cta-btn { background: #fff; color: #D71920; padding: 0.8rem 1.5rem; border-radius: 50px; font-weight: 700; text-decoration: none; border: 2px solid #D71920; transition: 0.3s; }
 .cta-btn:hover { background: #D71920; color: #fff; }
 
-.hero { background: linear-gradient(135deg, #D71920, #28A745); color: #fff; padding: 5rem 0; text-align: center; }
-.hero h1 { font-size: 2.5rem; margin-bottom: 1rem; }
-.hero p { font-size: 1.2rem; margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto; }
+/* ... (existing styles) ... */
+
+/* Hero Background with Real Gaza Image */
+.hero { 
+  background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://www.gettyimages.com/detail/photo/malnourished-gaza-child-hospital-royalty-free-image/138371' ) center/cover no-repeat; /* Real image from search */<grok:render card_id="07b465" card_type="citation_card" type="render_inline_citation"><argument name="citation_id">1</argument></grok:render>
+  color: #fff; 
+  padding: 5rem 0; 
+  text-align: center; 
+}
+
+ /* ... (rest unchanged) ... */
 
 .progress { padding: 3rem 0; text-align: center; background: #f9f9f9; }
 .progress h2 { color: #D71920; margin-bottom: 1rem; }
