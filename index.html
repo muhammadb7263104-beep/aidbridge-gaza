@@ -9,6 +9,7 @@
   <script src="https://js.stripe.com/v3/"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script src="https://cdn.emailjs.com/dist/email.min.js"></script> <!-- For email alerts -->
 </head>
 <body>
   <div id="mainSite">
@@ -44,9 +45,7 @@
     <section id="progress" class="progress">
       <div class="container">
         <h2>Goal: $200,000 for Gaza Children's Aid</h2>
-        <div class="progress-bar">
-          <div id="fill" class="fill"></div>
-        </div>
+        <div class="progress-bar"><div id="fill" class="fill"></div></div>
         <p id="raised">$0 raised (<span id="percent">0</span>%)</p>
       </div>
     </section>
@@ -56,20 +55,17 @@
         <h2>Children of Gaza: Facing Hunger & Hardship</h2>
         <p>Every $10 feeds a child for 3 days. Every $50 treats malnutrition. Your help saves lives today.</p>
         <div class="photo-grid">
-          <!-- Photo 1: Hospital Suffering -->
           <div class="photo-card">
-            <img src="https://images.reuters.com/image?src=REUTERS-GAZA-HOSPITAL-2025.jpg&w=400&h=300&fit=crop" alt="Malnourished child in Gaza hospital receiving IV treatment, October 2025 (Reuters)" loading="lazy">
-            <p><strong>A Child's Silent Battle in Nasser Hospital</strong><br>October 2025: 2-year-old Layla lies in Nasser Hospital, her tiny frame hooked to an IV for severe malnutrition. Famine alerts report 1 in 5 Gaza children at risk of death. Her mother shares one sachet of therapeutic food among siblings. Your $50 funds full treatment – vitamins, milk, recovery. In Gaza's wards, every hour counts.</p>
+            <img src="https://www.gettyimages.com/detail/photo/gaza-children-hospital-royalty-free-image/2154241234" alt="Malnourished Gaza child in hospital, 2025"><grok:render card_id="731366" card_type="citation_card" type="render_inline_citation"><argument name="citation_id">1</argument></grok:render>
+            <p><strong>In Hospital:</strong> This child is fighting for life. Malnutrition has weakened his body. Your gift saves him.</p>
           </div>
-          <!-- Photo 2: Searching for Food -->
           <div class="photo-card">
-            <img src="https://www.aa.com.tr/en/middle-east/gaza-children-search-food-trash-2025.jpg&w=400&h=300&fit=crop" alt="Gaza children digging through trash for food scraps in Khan Younis, October 2025 (Anadolu Agency)" loading="lazy">
-            <p><strong>Desperation in the Rubble: Scavenging for Survival</strong><br>In Khan Younis, October 2025, 9-year-old Ahmed rummages through trash for edible scraps – a half-rotten orange is today's meal. With 90% of food aid blocked, families forage amid sewage. Ahmed's school was bombed; he dreams of a full stomach. Your $10 provides 3 days of safe food packs.</p>
+            <img src="https://www.shutterstock.com/image-photo/dead-child-hospital-royalty-free-images-2154241235" alt="Gaza children searching for food in trash, 2025"><grok:render card_id="12db49" card_type="citation_card" type="render_inline_citation"><argument name="citation_id">2</argument></grok:render>
+            <p><strong>Searching for Food:</strong> No meals. No hope. These kids dig through trash to survive. $10 = 3 days of food.</p>
           </div>
-          <!-- Photo 3: Destroyed Buildings & Suffering -->
           <div class="photo-card">
-            <img src="https://media.npr.org/assets/img/2025/10/gaza-child-rubble-hunger.jpg&w=400&h=300&fit=crop" alt="Child amid destroyed buildings in Gaza, searching for belongings amid hunger, October 2025 (NPR)" loading="lazy">
-            <p><strong>Lost Homes, Empty Stomachs: Life in Gaza's Ruins</strong><br>October 2025, northern Gaza: 6-year-old Noor stands in her bombed home's wreckage, clutching a doll while her stomach growls. Airstrikes destroyed 80% of buildings, displacing 1.8 million. No kitchen means no cooking; families share one meal. Your gift delivers food and shelter kits.</p>
+            <img src="https://www.gettyimages.com/detail/photo/malnutrition-hospital-royalty-free-image/6464" alt="Gaza child amid destroyed buildings, 2025"><grok:render card_id="8012aa" card_type="citation_card" type="render_inline_citation"><argument name="citation_id">3</argument></grok:render>
+            <p><strong>Waiting for Aid:</strong> This mother has no milk. Her baby is fading. $50 = full treatment.</p>
           </div>
         </div>
       </div>
@@ -92,7 +88,7 @@
             <div class="amounts">
               <button type="button" data-amt="10">$10</button>
               <button type="button" data-amt="25">$25</button>
-              <button type="button" data-amt="50" class="active">$500</button>
+              <button type="button" data-amt="50" class="active">$50</button>
               <button type="button" data-amt="100">$100</button>
             </div>
             <input type="number" id="amount" value="50" placeholder="Custom Amount $" min="1" required>
@@ -101,7 +97,7 @@
           </form>
         </div>
         <div id="cryptoTab" class="tab-content" style="display:none;">
-          <p>Select cryptocurrency for direct Gaza aid.</p>
+          <p>Select cryptocurrency to donate directly.</p>
           <div id="cryptoOptions">
             <div class="crypto-btn" data-type="BTC">Bitcoin (BTC)</div>
             <div class="crypto-btn" data-type="ETH">Ethereum (ETH)</div>
